@@ -1,0 +1,45 @@
+.auth-page{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    height: 80vh;
+    background-color: aliceblue;
+
+    .auth-form{
+        background-color: #1391bb;
+        padding: 30px;
+        border-radius: 13px;
+        box-shadow: 0px 2px 4px rebeccapurple;
+        text-align: center;
+        width: 300px;
+
+        h2{
+            font-size: 25px;
+            color: rgb(50, 50, 72);
+            margin-bottom: 15px;
+        }
+
+        form{
+            text-align: left;
+
+            label{
+                display: block;
+                margin-bottom: 10px;
+                font-size: 15px;
+                color: #121516;
+            }
+
+            input{
+                width:92%;
+                padding: 10px;
+                margin-bottom: 15px;
+                border: 1px solid black;
+                border-radius: 5px;
+
+            }
+
+        
+        }
+    
+    }
+}

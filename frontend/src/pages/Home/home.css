@@ -1,0 +1,66 @@
+.home {
+  position: relative;
+  padding: 120px 20px;
+  text-align: center;
+  color: #D2C1B6;
+  overflow: hidden;
+}
+.home::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../../assets/books.jpeg") center/cover no-repeat;
+  filter: blur(8px);
+  transform: scale(1.1); /* avoids blur edges */
+  z-index: 1;
+}
+.home::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 2;
+}
+.home-content {
+  position: relative;
+  z-index: 3;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.home h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.home p {
+  font-size: 18px;
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+.home button {
+  padding: 14px 32px;
+  font-size: 16px;
+  border-radius: 30px;
+  background: #122c3f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.home button:hover {
+  background: #1f3d53;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .home h1 {
+    font-size: 32px;
+  }
+
+  .home p {
+    font-size: 16px;
+  }
+}

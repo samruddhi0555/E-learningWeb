@@ -1,0 +1,67 @@
+.footer {
+  background: linear-gradient(135deg, #1e293b, #3b82f6);
+  color: #e5e7eb;
+  padding: 50px 10% 20px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  text-align: center;
+}
+
+/* Headings */
+.footer-brand h3,
+.footer-team h4 {
+  color: #38bdf8;
+  margin-bottom: 12px;
+}
+
+/* Brand text */
+.footer-brand p {
+  font-size: 14px;
+  color: #cbd5f5;
+}
+
+/* Team list */
+.footer-team ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-team li {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #e5e7eb;
+}
+
+.footer-section h3,
+.footer-section h4 {
+  margin-bottom: 15px;
+  color: #38bdf8;
+}
+
+.footer-section p,
+.footer-section li {
+  font-size: 14px;
+  color: #cbd5f5;
+  margin-bottom: 8px;
+  list-style: none;
+}
+
+.footer-section li:hover {
+  color: #38bdf8;
+  cursor: pointer;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 15px;
+  border-top: 1px solid #334155;
+  font-size: 13px;
+  color: #94a3b8;
+}
