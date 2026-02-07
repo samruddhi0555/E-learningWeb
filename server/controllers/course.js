@@ -1,85 +1,93 @@
-//import {instance } from "../index.js";
 import TryCatch from "../middlewares/TryCatch.js";
 import { Courses } from "../models/course.js";
 import { Lecture } from "../models/Lecture.js";
 import { User } from "../models/user.js";
 
-export const getAllCourses = TryCatch(async(req,res)=>{
-    const courses = await Courses.find()
+/* ================= COURSES ================= */
 
-    res.json({
-         courses,
+export const getAllCourses = TryCatch(async (req, res) => {
+  const courses = await Courses.find();
+  res.json({ courses });
+});
+
+export const getSingleCourse = TryCatch(async (req, res) => {
+  const course = await Courses.findById(req.params.id);
+  res.json({ course });
+});
+
+/* ================= LECTURES ================= */
+
+export const fetchLectures = TryCatch(async (req, res) => {
+  const lectures = await Lecture.find({ course: req.params.id });
+  const user = await User.findById(req.user._id);
+
+  if (user.role === "admin") {
+    return res.json({ lectures });
+  }
+
+  const isSubscribed = user.subscription.some(
+    (courseId) => courseId.toString() === req.params.id.toString()
+  );
+
+  if (!isSubscribed) {
+    return res.status(403).json({
+      message: "You have not subscribed to this course",
     });
+  }
+
+  res.json({ lectures });
 });
 
-export const getSingleCourse = TryCatch(async(req,res)=>{
-    const course = await Courses.findById(req.params.id)
-    res.json({
-        course,
+export const fetchLecture = TryCatch(async (req, res) => {
+  const lecture = await Lecture.findById(req.params.id);
+  const user = await User.findById(req.user._id);
+
+  if (user.role === "admin") {
+    return res.json({ lecture });
+  }
+
+  const isSubscribed = user.subscription.some(
+    (courseId) =>
+      courseId.toString() === lecture.course.toString()
+  );
+
+  if (!isSubscribed) {
+    return res.status(403).json({
+      message: "You have not subscribed to this course",
     });
+  }
+
+  res.json({ lecture });
 });
 
-export const fetchLectures=TryCatch(async(req,res)=>{
-    const lectures = await Lecture.find({course:req.params.id});
 
-    const user = await User.findById(req.user._id)
+/* ================= USER COURSES ================= */
 
-    if(user.role==="admin"){
-        return res.json({ lectures });
-    }
+export const getMyCourses = TryCatch(async (req, res) => {
+  const courses = await Courses.find({
+    _id: { $in: req.user.subscription },
+  });
 
-    if(!user.subscription.includes(req.params.id)) return res.status(400).json({
-        message:"You have not subscribed to this course",
-    })
-
-    res.json({lectures});
-
-});
-export const fetchLecture=TryCatch(async(req,res)=>{
-    const lecture = await Lecture.findById(req.params.id);
-
-    const user = await User.findById(req.user._id)
-
-    if(user.role==="admin"){
-        return res.json({ lecture });
-    }
-
-    if(!user.subscription.includes(req.params.id)) return res.status(400).json({
-        message:"You have not subscribed to this course",
-    })
-
-    res.json({lecture});
-
-
+  res.json({ courses });
 });
 
-export const getMyCourses=TryCatch(async(req,res)=>{
-    const courses = await Courses.find({_id: req.user.subscription})
+/* ================= FAKE CHECKOUT ================= */
 
-    res.json({
-        courses,
-    })
-})
+export const checkout = TryCatch(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  const courseId = req.params.id;
 
-export const checkout =TryCatch(async(req,res)=>{
-    const user = await User.findById(req.user._id);
-
-    const course = await Courses.findById(req.params.id);
-
-    if(user.subscription.includes(course._id)){
-        return res.status(400).json({
-            message:"You already have this course",
-        })
-    }
-
-    const options ={
-        amount:Number(course.price*100),
-        currency:"INR",
-    };
-
-    const order = await instance.orders.create(options);
-    res.status(201).json({
-        order,
-        course,
+  // prevent duplicate subscription
+  if (user.subscription.includes(courseId)) {
+    return res.status(400).json({
+      message: "Already enrolled in this course",
     });
+  }
+
+  user.subscription.push(courseId);
+  await user.save();
+
+  res.status(200).json({
+    message: "Payment successful",
+  });
 });

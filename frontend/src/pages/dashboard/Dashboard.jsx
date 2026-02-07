@@ -7,7 +7,7 @@ const Dashboard = () => {
     const {mycourse} = CourseData()
   return (
     <div className="student-dashboard">
-        <h2>All enrolledd courses</h2>
+        <h2>All Enrolled courses</h2>
         <div className="dashboard-content">
             {
                 mycourse && mycourse.length>0 ? mycourse.map((e)=>(

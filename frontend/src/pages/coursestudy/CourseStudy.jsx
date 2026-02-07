@@ -2,11 +2,13 @@ import React, { useEffect } from 'react'
 import './CourseStudy.css'
 import {useNavigate, useParams} from 'react-router-dom'
 import {CourseData} from '../../context/CourseContext'
+import server from '../../config'
+import { Link } from 'react-router-dom'
 
-const CourseStudy = () => {
+const CourseStudy = ({user}) => {
     const params = useParams()
 
-    const {fetchCourse} = CourseData()
+    const {fetchCourse,course} = CourseData()
     const navigate=useNavigate()
 
     if(user && user.role !=="admin" && !user.subscription.includes(params.id))

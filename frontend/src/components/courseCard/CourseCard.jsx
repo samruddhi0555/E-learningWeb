@@ -1,6 +1,6 @@
 import React from "react";
 import "./courseCard.css";
-import { server } from "../../main";
+import { server } from "../../config";
 import { UserData } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -14,7 +14,7 @@ const CourseCard = ({ course }) => {
   const { fetchCourses } = CourseData();
 
   const deleteHandler = async (id) => {
-    if (confirm("Are you sure you want to delete this course")) {
+    if (confirm("Are you sure you want to delete this course?")) {
       try {
         const { data } = await axios.delete(`${server}/api/course/${id}`, {
           headers: {

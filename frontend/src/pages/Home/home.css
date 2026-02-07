@@ -43,7 +43,7 @@
   padding: 14px 32px;
   font-size: 16px;
   border-radius: 30px;
-  background: #122c3f;
+  background: #0E2954;
   color: white;
   border: none;
   cursor: pointer;
@@ -51,7 +51,7 @@
 }
 
 .home button:hover {
-  background: #1f3d53;
+  background: #0C134F;
   transform: scale(1.05);
 }
 
