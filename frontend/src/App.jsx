@@ -30,6 +30,9 @@ import AdminDashboard from "./admin/dashboard/AdminDasboard";
 import AdminCourses from "./admin/courses/AdminCourses";
 import AdminUsers from "./admin/users/AdminUsers";
 
+/* Admin Layout */
+import Layout from "./admin/utils/Layout";
+
 /* Context */
 import { UserData } from "./context/UserContext";
 
@@ -43,17 +46,17 @@ const App = () => {
       <Header isAuth={isAuth} />
 
       <Routes>
-        {/* Public Routes */}
+        {/* ================= PUBLIC ROUTES ================= */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<Courses />} />
 
-        {/* Auth Routes */}
+        {/* ================= AUTH ROUTES ================= */}
         <Route path="/login" element={isAuth ? <Home /> : <Login />} />
         <Route path="/register" element={isAuth ? <Home /> : <Register />} />
         <Route path="/verify" element={isAuth ? <Home /> : <Verify />} />
 
-        {/* User Routes */}
+        {/* ================= USER ROUTES ================= */}
         <Route
           path="/account"
           element={isAuth ? <Account user={user} /> : <Login />}
@@ -79,26 +82,20 @@ const App = () => {
           element={isAuth ? <PaymentSuccess user={user} /> : <Login />}
         />
 
+        {/* USER DASHBOARD (NO CONFLICT NOW) */}
         <Route
-          path="/:id/dashboard"
+          path="/dashboard"
           element={isAuth ? <Dashboard user={user} /> : <Login />}
         />
 
-        {/* Admin Routes */}
-        <Route
-          path="/admin/dashboard"
-          element={isAuth ? <AdminDashboard user={user} /> : <Login />}
-        />
+        {/* ================= ADMIN ROUTES ================= */}
+        {/* ADMIN ROUTES */}
+<Route path="/admin" element={isAuth ? <Layout /> : <Login />}>
+  <Route path="dashboard" element={<AdminDashboard user={user} />} />
+  <Route path="course" element={<AdminCourses user={user} />} />
+  <Route path="users" element={<AdminUsers user={user} />} />
+</Route>
 
-        <Route
-          path="/admin/course"
-          element={isAuth ? <AdminCourses user={user} /> : <Login />}
-        />
-
-        <Route
-          path="/admin/users"
-          element={isAuth ? <AdminUsers user={user} /> : <Login />}
-        />
       </Routes>
 
       <Footer />

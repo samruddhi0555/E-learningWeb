@@ -69,7 +69,6 @@ export const verifyUser = TryCatch(async (req, res) => {
     });
 });
 
-// UPDATED LOGIN USER FOR COOKIES
 export const loginUser = TryCatch(async (req, res) => {
     const { email, password } = req.body;
 

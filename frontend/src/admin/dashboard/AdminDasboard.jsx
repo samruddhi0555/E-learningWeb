@@ -1,50 +1,53 @@
-import React, { useEffect, useState } from 'react'
-import {useNavigate} from 'react-router-dom'
-import Layout from '../../utils/Layout'
-import server from '../../config.js'
-import './dashboard.css'
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Layout from "../utils/Layout";
+import api from "../../api"; 
+import "./dashboard.css";
 
-const AdminDasboard = ({user}) => {
-    const navigate = useNavigate()
+const AdminDashboard = ({ user }) => {
+  const navigate = useNavigate();
+  const [stats, setStats] = useState({});
 
-    if(user && user.role !=='admin') return navigate('/')
+  useEffect(() => {
+    if (user && user.role !== "admin") {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
-      const [stats,setStats]=useState([])
+  
+  const fetchStats = async () => {
+    try {
+      const { data } = await api.get("/stats"); 
+      setStats(data);
+    } catch (error) {
+      console.log(error.response?.data?.message || error.message);
+    }
+  };
 
-      async function fetchStats(){
-        try {
-          const {data} = await axios.get(`${server}/api/stats`,{
-            headers:{
-              token: localStorage.getItem('token')
-            }
-          })
-        } catch (error) {
-          console.log(error)
-        }
-      }
-      useEffect(()=>{
-        fetchStats()
-      },[])
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
   return (
-    <div>
-        <Layout>
-          <div className="main-content">
-            <div className="box">
-              <p>Total Courses</p>
-              <p>{stats.totalCourse}</p>
-            </div>
-            <div className="box">
-              <p>Total Lectures</p>
-              <p>{stats.totalLectures}</p>
-            </div>
-            <div className="box">
-              <p>Total Users</p>
-              <p>{stats.totalUsers}</p>
-            </div>
-          </div>
-        </Layout>
-    </div>
-  )
-}
+    
+      <div className="main-content">
+        <div className="box">
+          <p>Total Courses</p>
+          <p>{stats.totalCourse || 0}</p>
+        </div>
 
-export default AdminDasboard
+        <div className="box">
+          <p>Total Lectures</p>
+          <p>{stats.totalLectures || 0}</p>
+        </div>
+
+        <div className="box">
+          <p>Total Users</p>
+          <p>{stats.totalUsers || 0}</p>
+        </div>
+      </div>
+    
+  );
+};
+
+export default AdminDashboard;

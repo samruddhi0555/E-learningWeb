@@ -3,7 +3,7 @@ import "./users.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { server } from "../../config";
-import Layout from "../../utils/Layout";
+import Layout from "../utils/Layout";
 import toast from "react-hot-toast";
 
 const AdminUsers = ({ user }) => {
@@ -54,7 +54,7 @@ const AdminUsers = ({ user }) => {
 
   console.log(users);
   return (
-    <Layout>
+    
       <div className="users">
         <h1>All Users</h1>
         <table border={"black"}>
@@ -89,7 +89,6 @@ const AdminUsers = ({ user }) => {
             ))}
         </table>
       </div>
-    </Layout>
   );
 };
 

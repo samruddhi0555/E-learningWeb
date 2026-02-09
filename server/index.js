@@ -22,7 +22,7 @@ const __dirname = path.dirname(__filename);
 
 // middlewares
 app.use(express.json());
-app.use(cookieParser()); // Now this will work!
+app.use(cookieParser());
 
 app.use(cors({
   origin: "http://localhost:5173",

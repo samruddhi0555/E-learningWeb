@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Layout from "../../utils/Layout";
+import Layout from "../utils/Layout";
 import { useNavigate } from "react-router-dom";
 import { CourseData } from "../../context/CourseContext";
 import CourseCard from "../../components/courseCard/CourseCard";
@@ -45,45 +45,50 @@ const AdminCourses = ({ user }) => {
 
   const { courses, fetchCourses } = CourseData();
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+const submitHandler = async (e) => {
+  e.preventDefault();
+
+  try {
     setBtnLoading(true);
 
-    const myForm = new FormData();
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("createdBy", createdBy);
+    formData.append("category", category);
+    formData.append("duration", duration);
+    formData.append("image", image);
 
-    myForm.append("title", title);
-    myForm.append("description", description);
-    myForm.append("category", category);
-    myForm.append("price", price);
-    myForm.append("createdBy", createdBy);
-    myForm.append("duration", duration);
-    myForm.append("file", image);
-
-    try {
-      const { data } = await axios.post(`${server}/api/course/new`, myForm, {
+    await axios.post(
+      `${server}/api/course/new`,
+      formData,
+      {
         headers: {
-          token: localStorage.getItem("token"),
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
         },
-      });
+      }
+    );
 
-      toast.success(data.message);
-      setBtnLoading(false);
-      await fetchCourses();
-      setImage("");
-      setTitle("");
-      setDescription("");
-      setDuration("");
-      setImagePrev("");
-      setCreatedBy("");
-      setPrice("");
-      setCategory("");
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
+    toast.success("Course Added Successfully");
+    await fetchCourses();
+    setImage("");
+    setTitle("");
+    setDescription("");
+    setDuration("");
+    setImagePrev("");
+    setCreatedBy("");
+    setPrice("");
+    setCategory("");
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Something went wrong");
+  } finally {
+    setBtnLoading(false);
+  }
+};
 
   return (
-    <Layout>
       <div className="admin-courses">
         <div className="left">
           <h1>All Courses</h1>
@@ -170,7 +175,6 @@ const AdminCourses = ({ user }) => {
           </div>
         </div>
       </div>
-    </Layout>
   );
 };
 

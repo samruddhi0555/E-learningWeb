@@ -11,22 +11,27 @@ export const UserContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   async function loginUser(email, password, navigate, fetchMyCourse) {
-    setBtnLoading(true);
-    try {
-      const { data } = await api.post("/api/user/login", { email, password });
+  setBtnLoading(true);
+  try {
+    const { data } = await api.post("/api/user/login", { email, password });
 
-      toast.success(data.message);
-      setUser(data.user);
-      setIsAuth(true);
-      setBtnLoading(false);
-      navigate("/");
-      fetchMyCourse();
-    } catch (error) {
-      setBtnLoading(false);
-      setIsAuth(false);
-      toast.error(error.response?.data?.message || "Login Failed");
-    }
+    // ✅ SAVE TOKEN & USER
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    toast.success(data.message);
+    setUser(data.user);
+    setIsAuth(true);
+
+    navigate("/");
+    fetchMyCourse();
+  } catch (error) {
+    setIsAuth(false);
+    toast.error(error.response?.data?.message || "Login Failed");
+  } finally {
+    setBtnLoading(false);
   }
+}
 
   async function registerUser(name, email, password, navigate) {
     setBtnLoading(true);
