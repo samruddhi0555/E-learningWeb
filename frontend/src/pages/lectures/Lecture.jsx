@@ -22,10 +22,7 @@ const Lecture = ({ user }) => {
   const [videoPrev, setVideoPrev] = useState("");
   const [btnLoading, setBtnLoading] = useState(false);
 
-  // const [completed, setCompleted] = useState(0);
-  // const [completedLec, setCompletedLec] = useState(0);
-  // const [lectLength, setLectLength] = useState(0);
-  // const [progress, setProgress] = useState([]);
+ 
 
   /* -------------------- ACCESS CONTROL -------------------- */
   useEffect(() => {
@@ -79,46 +76,6 @@ const Lecture = ({ user }) => {
       setLecLoading(false);
     }
   };
-
-  /* -------------------- FETCH PROGRESS (SAFE) -------------------- */
-//   const fetchProgress = async () => {
-//  try {
-//       const { data } = await axios.get(
-//         `${server}/api/user/progress?course=${params.id}`,
-//         {
-//           headers: {
-//             token: localStorage.getItem("token"),
-//           },
-//         }
-//       );
-
-//       setCompleted(data.courseProgressPercentage || 0);
-//       setCompletedLec(data.completedLectures || 0);
-//       setLectLength(data.allLectures || 0);
-//       setProgress(data.progress || []);
-//     } catch (error) {
-//       console.log("Progress not available yet");
-//     }
-//   };
-
-  /* -------------------- ADD PROGRESS -------------------- */
-//   const addProgress = async (id) => {
-//     try {
-//       await axios.post(
-//         `${server}/api/user/progress?course=${params.id}&lectureId=${id}`,
-//         {},
-//         {
-//           headers: {
-//               token: localStorage.getItem("token"),
-// },
-
-//         }
-//       );
-//       fetchProgress();
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
 
   /* -------------------- VIDEO UPLOAD -------------------- */
   const changeVideoHandler = (e) => {
